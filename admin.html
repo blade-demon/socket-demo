@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container" style="padding: 20px">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-10">
+            <h5 id="listhead">设备列表</h5>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
+<script src="https://cdn.bootcss.com/socket.io/2.0.4/socket.io.slim.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script>
+    var socket = io('/server');
+    socket.on('login', function (data) {
+        setClientsUI(data);
+    });
+
+    socket.on('clientLogin', function (clients) {
+        setClientsUI(clients);
+    });
+
+    socket.on('clientLogout', function (clients) {
+        setClientsUI(clients);
+    });
+
+    function setClientsUI(clients) {
+        var html = '';
+        clients.map(function (client) {
+            html += `<div class="alert alert-primary" role="alert">${client}</div>`;
+        });
+        $("#listhead").html("").append(html);
+    }
+</script>
+</body>
+</html>
